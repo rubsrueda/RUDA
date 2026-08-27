@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RUDA — La primera motocicleta de 400cc diseñada para sobrevivir a México</title>
-    <meta name="description" content="RUDA Serie 01. $99,500 MXN. Motor 400cc sobrio de 40 HP, ruedas de radios tubeless indestructibles y plásticos teñidos en masa. Estilo Tool-Watch.">
-    <!-- Favicon SVG dinámico para evitar error 404 -->
+    <title>RUDA Serie 01 — La moto de los usuarios, no de las marcas</title>
+    <meta name="description" content="Tomamos una plataforma mecánica industrial de 400cc y la co-creamos con la comunidad. Sin intermediarios, sin plásticos innecesarios y al precio justo ($99,500 MXN).">
+    <!-- Favicon SVG dinámico -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏍️</text></svg>">
     <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -38,7 +38,6 @@
         }
     </script>
     <style>
-        /* Custom scrollbar and tool-watch industrial aesthetics */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -74,20 +73,19 @@
 
             <!-- Desktop Nav Links -->
             <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold uppercase tracking-wider text-gray-400">
-                <a href="#concepto" class="hover:text-oliva-light transition-colors">Concepto</a>
+                <a href="#manifiesto" class="hover:text-oliva-light transition-colors">El Manifiesto</a>
                 <a href="#especificaciones" class="hover:text-oliva-light transition-colors">Especificaciones</a>
                 <a href="#suscripcion" class="hover:text-oliva-light transition-colors">MaaS</a>
-                <!-- Enlace a Comunidad en Escritorio -->
                 <a href="comunidad.html" class="hover:text-oliva-light transition-colors flex items-center gap-2 text-oliva-light font-bold">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    Comunidad
+                    Comunidad VIP
                 </a>
             </nav>
 
             <!-- CTA Button -->
             <div class="hidden sm:block">
-                <a href="#registro" class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-bold tracking-wider text-white uppercase bg-oliva hover:bg-oliva-light border border-oliva-light transition-all shadow-lg hover:shadow-oliva/20">
-                    Unirme a la Serie 01
+                <a href="#postulacion" class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-bold tracking-wider text-white uppercase bg-oliva hover:bg-oliva-light border border-oliva-light transition-all shadow-lg hover:shadow-oliva/20">
+                    Postularme a la Serie 01
                 </a>
             </div>
 
@@ -101,16 +99,15 @@
 
         <!-- Mobile Menu Dropdown -->
         <div id="mobile-menu" class="hidden md:hidden bg-asfalto-800 border-b border-asfalto-700 px-4 pt-4 pb-6 space-y-4">
-            <a href="#concepto" class="mobile-link block text-base font-semibold text-gray-300 hover:text-white uppercase tracking-wider">Concepto</a>
+            <a href="#manifiesto" class="mobile-link block text-base font-semibold text-gray-300 hover:text-white uppercase tracking-wider">El Manifiesto</a>
             <a href="#especificaciones" class="mobile-link block text-base font-semibold text-gray-300 hover:text-white uppercase tracking-wider">Especificaciones</a>
             <a href="#suscripcion" class="mobile-link block text-base font-semibold text-gray-300 hover:text-white uppercase tracking-wider">MaaS</a>
-            <!-- Enlace a Comunidad en Móvil -->
             <a href="comunidad.html" class="mobile-link hover:text-oliva-light transition-colors flex items-center gap-2 text-oliva-light font-bold text-base uppercase tracking-wider">
                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                Comunidad
+                Comunidad VIP
             </a>
-            <a href="#registro" class="mobile-link block w-full text-center px-5 py-3 text-sm font-bold tracking-wider text-white uppercase bg-oliva hover:bg-oliva-light border border-oliva-light">
-                Unirme a la Serie 01
+            <a href="#postulacion" class="mobile-link block w-full text-center px-5 py-3 text-sm font-bold tracking-wider text-white uppercase bg-oliva hover:bg-oliva-light border border-oliva-light">
+                Postularme a la Serie 01
             </a>
         </div>
     </header>
@@ -124,22 +121,25 @@
                     
                     <!-- Text Content -->
                     <div class="lg:col-span-7 space-y-8">
-                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 border border-oliva/50 bg-oliva/10 text-oliva-light font-mono text-xs uppercase tracking-widest">
-                            <span class="w-2 h-2 rounded-full bg-oliva-light animate-pulse"></span>
-                            Fase de Homologación · México 2026
+                        <!-- BANNER CONTADOR DE EXCLUSIVIDAD -->
+                        <div class="inline-flex items-center gap-3 px-4 py-2 border border-oliva/80 bg-asfalto-800 shadow-lg text-oliva-light font-mono text-xs uppercase tracking-widest">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span class="text-white font-bold">Edición Limitada</span> — 1,000 Lugares Disponibles
                         </div>
                         
+                        <!-- TÍTULO PRINCIPAL -->
                         <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight uppercase font-mono">
-                            La primera motocicleta de 400cc diseñada para <span class="text-transparent bg-clip-text bg-gradient-to-r from-oliva-light to-acero underline decoration-oliva decoration-4">sobrevivir a México</span>.
+                            La moto de los usuarios, <span class="text-transparent bg-clip-text bg-gradient-to-r from-oliva-light to-acero underline decoration-oliva decoration-4">no de las marcas</span>.
                         </h1>
                         
+                        <!-- SUBTÍTULO -->
                         <p class="text-lg sm:text-xl text-gray-300 font-light leading-relaxed max-w-2xl">
-                            <strong class="text-white font-semibold">$99,500 MXN.</strong> Motor sobrio de 40 HP, ruedas de radios tubeless indestructibles y plásticos teñidos en masa. Herramienta pura, cero adornos frágiles.
+                            Tomamos una plataforma mecánica industrial de 400cc y la co-creamos con la comunidad. Sin intermediarios, sin plásticos innecesarios y al precio justo (<strong class="text-white font-semibold">$99,500 MXN</strong>).
                         </p>
                         
                         <div class="pt-2 flex flex-col sm:flex-row gap-4">
-                            <a href="#registro" class="inline-flex items-center justify-center px-8 py-4 text-base font-bold tracking-wider text-white uppercase bg-oliva hover:bg-oliva-light border border-oliva-light transition-all shadow-xl hover:shadow-oliva/30 group">
-                                <span>Reservar lugar en la Serie 01</span>
+                            <a href="#postulacion" class="inline-flex items-center justify-center px-8 py-4 text-base font-bold tracking-wider text-white uppercase bg-oliva hover:bg-oliva-light border border-oliva-light transition-all shadow-xl hover:shadow-oliva/30 group">
+                                <span>Postularme como Co-Creador</span>
                                 <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                                 </svg>
@@ -149,8 +149,8 @@
                         <!-- Secondary Info Badge -->
                         <div class="pt-4 flex items-center gap-6 text-xs font-mono text-gray-400 border-t border-asfalto-700/60 max-w-md">
                             <div>
-                                <span class="block text-white font-bold text-sm">1,000 UNIDADES</span>
-                                Serie 01 Limitada
+                                <span class="block text-white font-bold text-sm">NORTEAMÉRICA</span>
+                                Asignación Exclusiva
                             </div>
                             <div class="w-px h-8 bg-asfalto-700"></div>
                             <div>
@@ -170,8 +170,8 @@
                                 <img src="imagen1.jpg" alt="RUDA Serie 01 - Motocicleta Industrial 400cc" class="w-full h-auto object-cover aspect-[4/3] filter brightness-95 contrast-105 hover:scale-102 transition-transform duration-500">
                                 
                                 <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-asfalto-900/90 to-transparent flex justify-between items-end">
-                                    <span class="font-mono text-xs text-oliva-light tracking-widest font-bold">MODELO: RUDA-01-400</span>
-                                    <span class="font-mono text-[10px] text-gray-400">HERRAMIENTA URBANA</span>
+                                    <span class="font-mono text-xs text-oliva-light tracking-widest font-bold">PLATAFORMA 400CC</span>
+                                    <span class="font-mono text-[10px] text-gray-400">CO-CREACIÓN // 2026</span>
                                 </div>
                             </div>
                         </div>
@@ -181,18 +181,18 @@
             </div>
         </section>
 
-        <!-- SECCIÓN "MÁQUINA Y FILOSOFÍA" (#concepto) -->
-        <section id="concepto" class="py-20 bg-asfalto-800 border-b border-asfalto-700">
+        <!-- SECCIÓN "EL MANIFIESTO" (#manifiesto) -->
+        <section id="manifiesto" class="py-20 bg-asfalto-800 border-b border-asfalto-700">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 
                 <!-- Section Header -->
                 <div class="max-w-3xl mb-16">
-                    <span class="text-xs font-mono font-bold text-oliva-light uppercase tracking-widest block mb-2">// MÁQUINA Y FILOSOFÍA</span>
+                    <span class="text-xs font-mono font-bold text-oliva-light uppercase tracking-widest block mb-2">// NUESTRA FILOSOFÍA</span>
                     <h2 class="text-3xl sm:text-4xl font-extrabold text-white uppercase font-mono tracking-tight">
-                        Sin concesionarios ostentosos. Sin plásticos frágiles pintados.
+                        El Manifiesto de la Serie 01
                     </h2>
                     <p class="mt-4 text-base sm:text-lg text-gray-300 font-light leading-relaxed">
-                        Las calles de México rompen motocicletas comunes. Eliminamos los intermediarios innecesarios y los lujos cosméticos para reinvertir cada peso en durabilidad mecánica, resistencia estructural y soporte real.
+                        Rechazamos la obsolescencia programada, los intermediarios ostentosos y la fragilidad del consumo masivo. RUDA es una obra industrial creada para trascender.
                     </p>
                 </div>
 
@@ -206,14 +206,14 @@
                                 01
                             </div>
                             <h3 class="text-xl font-bold text-white uppercase font-mono mb-3">
-                                Motor 400cc Sobre-diseñado
+                                Chasis Expuesto
                             </h3>
                             <p class="text-sm text-gray-400 leading-relaxed">
-                                Monocilíndrico refrigerado por líquido de <strong>40 HP / 38 Nm</strong>. Ajustado para trabajar de manera constante al 60% de su capacidad máxima, reduciendo drásticamente la fricción, el estrés térmico y el desgaste acumulado.
+                                Arquitectura de acero tubulada expuesta. La belleza reside en la honestidad de la ingeniería: cada soldadura estructural queda a la vista, sin disfraces ni adornos cosméticos frágiles.
                             </p>
                         </div>
                         <div class="mt-6 pt-4 border-t border-asfalto-800 font-mono text-xs text-oliva-light font-bold">
-                            REFRIGERACIÓN LÍQUIDA + DOHC
+                            ESTRUCTURA DE ACERO
                         </div>
                     </div>
 
@@ -224,14 +224,14 @@
                                 02
                             </div>
                             <h3 class="text-xl font-bold text-white uppercase font-mono mb-3">
-                                Ruedas Anti-Baches
+                                Cero Plásticos Desechables
                             </h3>
                             <p class="text-sm text-gray-400 leading-relaxed">
-                                Radios de acero inoxidable montados en aros de acero troquelado con sistema <strong>Tubeless (Sin Cámara)</strong>. Soportan impactos severos en socavones sin deformarse ni perder presión de aire instantáneamente.
+                                Eliminamos los carenados pintados de frágil ruptura. Construida en metal puro y componentes de polipropileno teñido en masa diseñados para soportar caídas sin revelar capas inferiores.
                             </p>
                         </div>
                         <div class="mt-6 pt-4 border-t border-asfalto-800 font-mono text-xs text-oliva-light font-bold">
-                            RADIOS TUBELESS 19" / 17"
+                            MATERIALES NO FRÁGILES
                         </div>
                     </div>
 
@@ -242,14 +242,14 @@
                                 03
                             </div>
                             <h3 class="text-xl font-bold text-white uppercase font-mono mb-3">
-                                Carrocería Indestructible
+                                Reparabilidad DIY
                             </h3>
                             <p class="text-sm text-gray-400 leading-relaxed">
-                                Carenados en polipropileno teñido en masa (Gris Asfalto y Verde Oliva): los tallones y caídas no revelan capas de pintura inferior. Incluye defensas tubulares de acero de alta resistencia instaladas de serie.
+                                Diseñada para ser mantenida por su propio dueño. Sin sistemas electrónicos propietarios bloqueados: estándar mecánico transparente accesible para el garaje del propio piloto.
                             </p>
                         </div>
                         <div class="mt-6 pt-4 border-t border-asfalto-800 font-mono text-xs text-oliva-light font-bold">
-                            POLIPROPILENO TEÑIDO EN MASA
+                            MECÁNICA TRANSPARENTE
                         </div>
                     </div>
 
@@ -263,10 +263,10 @@
                 
                 <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
                     <div>
-                        <span class="text-xs font-mono font-bold text-oliva-light uppercase tracking-widest block mb-2">// GALERÍA TÉCNICA</span>
+                        <span class="text-xs font-mono font-bold text-oliva-light uppercase tracking-widest block mb-2">// GALERÍA TÉCNICA Y ARTESANÍA</span>
                         <h2 class="text-3xl font-extrabold text-white uppercase font-mono">Detalles de Construcción</h2>
                     </div>
-                    <p class="text-sm text-gray-400 font-mono mt-2 md:mt-0">HERRAMIENTA TOOL-WATCH DE MOVILIDAD</p>
+                    <p class="text-sm text-gray-400 font-mono mt-2 md:mt-0">HERRAMIENTA TOOL-WATCH DE EDICIÓN LIMITADA</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -280,7 +280,7 @@
                         </div>
                         <div class="p-4">
                             <h3 class="text-lg font-bold text-white uppercase font-mono">Ensamblado de Radios Tubeless</h3>
-                            <p class="text-xs text-gray-400 mt-1">Absorción de impacto estructural con mantenimiento simplificado en carretera.</p>
+                            <p class="text-xs text-gray-400 mt-1">Absorción de impacto estructural en metal puro con mantenimiento simplificado en carretera.</p>
                         </div>
                     </div>
 
@@ -294,7 +294,7 @@
                         </div>
                         <div class="p-4">
                             <h3 class="text-lg font-bold text-white uppercase font-mono">Ergonomía Urbana y Resistencia</h3>
-                            <p class="text-xs text-gray-400 mt-1">Postura erguida, centro de gravedad bajo y protecciones laterales integradas.</p>
+                            <p class="text-xs text-gray-400 mt-1">Postura erguida, centro de gravedad bajo y defensas tubulares laterales integradas de serie.</p>
                         </div>
                     </div>
                 </div>
@@ -302,7 +302,7 @@
                 <!-- Disclaimer Legend -->
                 <div class="mt-8 text-center">
                     <p class="text-xs font-mono text-gray-500">
-                        *Imágenes conceptuales del modelo en fase de homologación. Serie 01 limitada a 1,000 unidades.
+                        *Imágenes conceptuales del modelo en fase de homologación. Serie 01 limitada a 1,000 unidades numeradas.
                     </p>
                 </div>
 
@@ -314,7 +314,7 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 
                 <div class="text-center max-w-3xl mx-auto mb-16">
-                    <span class="text-xs font-mono font-bold text-oliva-light uppercase tracking-widest block mb-2">// COBERURA Y MANTENIMIENTO INTEGRA</span>
+                    <span class="text-xs font-mono font-bold text-oliva-light uppercase tracking-widest block mb-2">// COBERTURA Y MANTENIMIENTO INTEGRAL</span>
                     <h2 class="text-3xl sm:text-4xl font-extrabold text-white uppercase font-mono">
                         Tranquilidad Total: $9,500 MXN al año
                     </h2>
@@ -447,7 +447,7 @@
                                 Ruedas
                             </div>
                             <div class="md:col-span-2 text-sm text-gray-200 font-medium mt-1 md:mt-0">
-                                19" adelante / 17" atrás (Radios de acero Inox, Aros Tubeless)
+                                19" adelante / 17" atrás (Radios de acero Inox, Aros Tubeless en Metal Puro)
                             </div>
                         </div>
 
@@ -460,28 +460,37 @@
                             </div>
                         </div>
 
+                        <div class="grid grid-cols-1 md:grid-cols-3 p-4 sm:p-5 hover:bg-asfalto-700/50 transition-colors">
+                            <div class="font-mono text-xs uppercase tracking-wider text-oliva-light font-bold flex items-center">
+                                Construcción
+                            </div>
+                            <div class="md:col-span-2 text-sm text-gray-200 font-medium mt-1 md:mt-0">
+                                Chasis expuesto de acero tubulado + Placa de Edición Numerada a Mano
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
             </div>
         </section>
 
-        <!-- FORMULARIO DE REGISTRO (PREVENTA / SMOKE TEST) (#registro) -->
-        <section id="registro" class="py-20 bg-asfalto-800 border-b border-asfalto-700 relative">
+        <!-- FORMULARIO PASE VIP A LA COMUNIDAD DE CO-CREADORES (#postulacion) -->
+        <section id="postulacion" class="py-20 bg-asfalto-800 border-b border-asfalto-700 relative">
             <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
                 
                 <div class="bg-asfalto-900 border-2 border-oliva/60 p-6 sm:p-10 shadow-2xl relative">
                     <!-- Top Ribbon -->
                     <div class="absolute -top-3 left-6 bg-oliva px-3 py-0.5 text-[10px] font-mono font-bold text-white uppercase tracking-widest border border-oliva-light">
-                        RESERVA PRIORITARIA // PREVENTA
+                        PASE VIP // POSTULACIÓN A LOS 1,000 FUNDADORES
                     </div>
 
                     <div class="text-center mb-8">
                         <h2 class="text-2xl sm:text-3xl font-extrabold text-white uppercase font-mono tracking-tight">
-                            Acceso Exclusivo a la Serie 01
+                            Postúlate al Grupo de Co-Creadores
                         </h2>
                         <p class="text-sm text-gray-300 mt-2">
-                            Registra tus datos para asegurar tu prioridad en la asignación de las primeras 1,000 unidades numeradas.
+                            Asegura tu candidatura para una de las 1,000 unidades numeradas para Norteamérica y obtén tu pase inmediato al laboratorio de co-creación en <strong class="text-oliva-light">comunidad.html</strong>.
                         </p>
                     </div>
 
@@ -495,7 +504,7 @@
                         <input type="hidden" name="access_key" value="f2fed33b-5c85-404b-b673-4b5094d5ed79">
                         
                         <!-- Título del correo -->
-                        <input type="hidden" name="subject" value="NUEVO REGISTRO: RUDA Serie 01 (Smoke Test)">
+                        <input type="hidden" name="subject" value="NUEVA POSTULACIÓN CO-CREADOR: RUDA Serie 01">
                         
                         <!-- Anti-Spam Honeypot -->
                         <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
@@ -518,20 +527,20 @@
                         </div>
 
                         <div>
-                            <label for="ciudad" class="block text-xs font-mono font-bold text-gray-300 uppercase mb-2">Ciudad / Estado *</label>
-                            <input type="text" id="ciudad" name="ciudad" required placeholder="Ej. Ciudad de México, CDMX" class="w-full bg-asfalto-800 border border-asfalto-600 px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-oliva text-sm transition-colors">
+                            <label for="ciudad" class="block text-xs font-mono font-bold text-gray-300 uppercase mb-2">Ciudad / País (Norteamérica) *</label>
+                            <input type="text" id="ciudad" name="ciudad" required placeholder="Ej. CDMX, México / Austin, TX" class="w-full bg-asfalto-800 border border-asfalto-600 px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-oliva text-sm transition-colors">
                         </div>
 
                         <div class="pt-3">
                             <button type="submit" id="submit-btn" class="w-full py-4 px-6 bg-oliva hover:bg-oliva-light border border-oliva-light text-white font-bold font-mono text-sm uppercase tracking-wider transition-all shadow-lg hover:shadow-oliva/30 flex items-center justify-center">
-                                <span id="btn-text">Quiero mi RUDA Serie 01</span>
+                                <span id="btn-text">Postularme y Acceder a la Comunidad VIP</span>
                             </button>
                         </div>
 
                     </form>
 
                     <p class="text-[11px] font-mono text-gray-400 text-center mt-6 leading-relaxed">
-                        Sin compromiso de compra inmediato. Nos pondremos en contacto para coordinar la prueba de manejo cuando los prototipos de homologación estén en calle.
+                        Al postularte, recibirás tu acceso para incidir directamente en las especificaciones finales del modelo en el canal de co-creación.
                     </p>
 
                 </div>
@@ -552,7 +561,7 @@
                 </div>
 
                 <div class="text-xs font-mono text-gray-400 text-center md:text-right">
-                    MOVILIDAD INDUSTRIAL // MÉXICO 2026
+                    EDICIÓN LIMITADA // NORTEAMÉRICA 2026
                 </div>
 
             </div>
@@ -560,7 +569,7 @@
             <div class="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-gray-400">
                 <p>Derechos reservados RUDA © 2026.</p>
                 <p class="text-center sm:text-right max-w-md">
-                    *Esta página es una prueba de concepto (Smoke Test) para validar el interés de mercado de la Serie 01 en México.
+                    *Serie 01 limitada estrictamente a 1,000 unidades numeradas para el mercado de Norteamérica.
                 </p>
             </div>
         </div>
@@ -595,7 +604,7 @@
             smokeForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                if (btnText) btnText.textContent = "ENVIANDO DATOS...";
+                if (btnText) btnText.textContent = "ENVIANDO POSTULACIÓN...";
                 if (submitBtn) {
                     submitBtn.disabled = true;
                     submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
@@ -617,11 +626,11 @@
                     let resJson = await response.json();
                     if (response.status == 200) {
                         formMessage.className = "mb-6 p-4 bg-oliva/20 border border-oliva text-oliva-light text-sm font-mono text-center";
-                        formMessage.textContent = "¡Registro exitoso! Te hemos añadido a la lista de espera prioritaria de la Serie 01.";
+                        formMessage.innerHTML = "¡Postulación recibida! Has sido registrado para el grupo de co-creadores.<br><a href='comunidad.html' class='underline font-bold text-white mt-2 inline-block'>Haz clic aquí para ingresar a la Comunidad VIP →</a>";
                         smokeForm.reset();
                     } else {
                         formMessage.className = "mb-6 p-4 bg-red-900/30 border border-red-500 text-red-300 text-sm font-mono text-center";
-                        formMessage.textContent = resJson.message || "Hubo un error al procesar tu solicitud. Intenta de nuevo.";
+                        formMessage.textContent = resJson.message || "Hubo un error al enviar tu postulación. Intenta de nuevo.";
                     }
                 })
                 .catch(error => {
@@ -633,7 +642,7 @@
                         formMessage.classList.remove('hidden');
                         formMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
-                    if (btnText) btnText.textContent = "Quiero mi RUDA Serie 01";
+                    if (btnText) btnText.textContent = "Postularme y Acceder a la Comunidad VIP";
                     if (submitBtn) {
                         submitBtn.disabled = false;
                         submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');

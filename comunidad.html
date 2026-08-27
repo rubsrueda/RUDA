@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comunidad RUDA — Co-Creación & Chat</title>
+    <!-- Favicon SVG dinámico -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏍️</text></svg>">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Supabase JS CDN (v2) -->
@@ -207,11 +209,11 @@
             <form id="form-login" class="space-y-4">
                 <div>
                     <label class="block text-xs font-mono font-bold text-gray-300 uppercase mb-1">Correo electrónico</label>
-                    <input type="email" id="login-email" required placeholder="tu@email.com" class="w-full bg-asfalto-800 border border-asfalto-600 px-3 py-2 text-sm text-white focus:outline-none focus:border-oliva">
+                    <input type="email" id="login-email" required placeholder="tu@email.com" autocomplete="username" class="w-full bg-asfalto-800 border border-asfalto-600 px-3 py-2 text-sm text-white focus:outline-none focus:border-oliva">
                 </div>
                 <div>
                     <label class="block text-xs font-mono font-bold text-gray-300 uppercase mb-1">Contraseña</label>
-                    <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-asfalto-800 border border-asfalto-600 px-3 py-2 text-sm text-white focus:outline-none focus:border-oliva">
+                    <input type="password" id="login-password" required placeholder="••••••••" autocomplete="current-password" class="w-full bg-asfalto-800 border border-asfalto-600 px-3 py-2 text-sm text-white focus:outline-none focus:border-oliva">
                 </div>
                 <button type="submit" class="w-full py-3 bg-oliva hover:bg-oliva-light border border-oliva-light text-white font-mono font-bold text-xs uppercase tracking-wider transition-colors">
                     Entrar a la Comunidad
@@ -222,19 +224,19 @@
             <form id="form-register" class="space-y-4 hidden">
                 <div>
                     <label class="block text-xs font-mono font-bold text-gray-300 uppercase mb-1">Usuario (Username)</label>
-                    <input type="text" id="reg-username" required placeholder="ej. piloto_ruda" class="w-full bg-asfalto-800 border border-asfalto-600 px-3 py-2 text-sm text-white focus:outline-none focus:border-oliva">
+                    <input type="text" id="reg-username" required placeholder="ej. piloto_ruda" autocomplete="username" class="w-full bg-asfalto-800 border border-asfalto-600 px-3 py-2 text-sm text-white focus:outline-none focus:border-oliva">
                 </div>
                 <div>
                     <label class="block text-xs font-mono font-bold text-gray-300 uppercase mb-1">Ciudad / Estado</label>
-                    <input type="text" id="reg-city" required placeholder="ej. Guadalajara, JAL" class="w-full bg-asfalto-800 border border-asfalto-600 px-3 py-2 text-sm text-white focus:outline-none focus:border-oliva">
+                    <input type="text" id="reg-city" required placeholder="ej. Guadalajara, JAL" autocomplete="address-level2" class="w-full bg-asfalto-800 border border-asfalto-600 px-3 py-2 text-sm text-white focus:outline-none focus:border-oliva">
                 </div>
                 <div>
                     <label class="block text-xs font-mono font-bold text-gray-300 uppercase mb-1">Correo electrónico</label>
-                    <input type="email" id="reg-email" required placeholder="tu@email.com" class="w-full bg-asfalto-800 border border-asfalto-600 px-3 py-2 text-sm text-white focus:outline-none focus:border-oliva">
+                    <input type="email" id="reg-email" required placeholder="tu@email.com" autocomplete="email" class="w-full bg-asfalto-800 border border-asfalto-600 px-3 py-2 text-sm text-white focus:outline-none focus:border-oliva">
                 </div>
                 <div>
                     <label class="block text-xs font-mono font-bold text-gray-300 uppercase mb-1">Contraseña (Mínimo 6 caracteres)</label>
-                    <input type="password" id="reg-password" minlength="6" required placeholder="••••••••" class="w-full bg-asfalto-800 border border-asfalto-600 px-3 py-2 text-sm text-white focus:outline-none focus:border-oliva">
+                    <input type="password" id="reg-password" minlength="6" required placeholder="••••••••" autocomplete="new-password" class="w-full bg-asfalto-800 border border-asfalto-600 px-3 py-2 text-sm text-white focus:outline-none focus:border-oliva">
                 </div>
                 <button type="submit" class="w-full py-3 bg-oliva hover:bg-oliva-light border border-oliva-light text-white font-mono font-bold text-xs uppercase tracking-wider transition-colors">
                     Crear Cuenta de Co-Creador
@@ -246,12 +248,12 @@
 
     <!-- LOGICA SUPABASE VANILLA JS -->
     <script>
-        // Inicialización de Supabase con credenciales provistas
+        // Inicialización corrigiendo el conflicto de variable con window.supabase
         const SUPABASE_URL = 'https://wwafeitljxnlvmjtwsjz.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_9jlzQGRdEZhBtbofd-poZw_pIG74t42';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // --- FUNCIONES DEL MODAL (DECLARADAS PÚBLICAS Y GLOBALES EN WINDOW) ---
+        // --- FUNCIONES DEL MODAL EXPUESTAS GLOBALMENTE EN WINDOW ---
         window.openAuthModal = function(tab = 'login') {
             const authErrorMsg = document.getElementById('auth-error-msg');
             const authModal = document.getElementById('auth-modal');
@@ -311,7 +313,7 @@
 
         // --- AUTENTICACIÓN Y SESIÓN ---
         async function checkUserSession() {
-            const { data: { session } } = await supabase.auth.getSession();
+            const { data: { session } } = await supabaseClient.auth.getSession();
             if (session) {
                 currentUser = session.user;
                 await fetchProfile(currentUser.id);
@@ -323,7 +325,7 @@
         }
 
         async function fetchProfile(userId) {
-            const { data, error } = await supabase
+            const { data, error } = await supabaseClient
                 .from('ruda_profiles')
                 .select('*')
                 .eq('id', userId)
@@ -351,7 +353,7 @@
 
         // Event listener Cerrar Sesión
         document.getElementById('btn-logout').addEventListener('click', async () => {
-            await supabase.auth.signOut();
+            await supabaseClient.auth.signOut();
             currentUser = null;
             currentProfile = null;
             updateUIState();
@@ -364,7 +366,7 @@
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
 
-            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
             if (error) {
                 showAuthError(error.message);
                 return;
@@ -392,7 +394,7 @@
             }
 
             // 1. SignUp en Auth
-            const { data: authData, error: authError } = await supabase.auth.signUp({ email, password });
+            const { data: authData, error: authError } = await supabaseClient.auth.signUp({ email, password });
             if (authError) {
                 showAuthError(authError.message);
                 return;
@@ -400,7 +402,7 @@
 
             if (authData.user) {
                 // 2. Insertar Perfil en ruda_profiles
-                const { error: profileError } = await supabase
+                const { error: profileError } = await supabaseClient
                     .from('ruda_profiles')
                     .insert([{
                         id: authData.user.id,
@@ -429,7 +431,7 @@
         async function loadIdeas() {
             const feedContainer = document.getElementById('ideas-feed');
             
-            const { data: ideas, error } = await supabase
+            const { data: ideas, error } = await supabaseClient
                 .from('ruda_ideas')
                 .select(`
                     id, title, description, category, votes, created_at,
@@ -483,7 +485,7 @@
             const category = document.getElementById('idea-category').value;
             const description = document.getElementById('idea-desc').value;
 
-            const { error } = await supabase
+            const { error } = await supabaseClient
                 .from('ruda_ideas')
                 .insert([{
                     user_id: currentUser.id,
@@ -509,7 +511,7 @@
                 return;
             }
 
-            const { error } = await supabase
+            const { error } = await supabaseClient
                 .from('ruda_ideas')
                 .update({ votes: currentVotes + 1 })
                 .eq('id', ideaId);
@@ -526,7 +528,7 @@
         async function loadChatMessages() {
             const chatBox = document.getElementById('chat-box');
             
-            const { data: messages, error } = await supabase
+            const { data: messages, error } = await supabaseClient
                 .from('ruda_chat')
                 .select(`
                     id, message, created_at,
@@ -586,7 +588,7 @@
             const message = input.value.trim();
             if (!message) return;
 
-            const { error } = await supabase
+            const { error } = await supabaseClient
                 .from('ruda_chat')
                 .insert([{
                     user_id: currentUser.id,
@@ -603,7 +605,7 @@
 
         // Suscripción Realtime a ruda_chat
         function subscribeRealtimeChat() {
-            supabase
+            supabaseClient
                 .channel('public:ruda_chat')
                 .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'ruda_chat' }, async () => {
                     await loadChatMessages();

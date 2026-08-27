@@ -246,14 +246,12 @@
         </div>
     </div>
 
-   <!-- LOGICA SUPABASE VANILLA JS -->
+    <!-- LOGICA SUPABASE VANILLA JS -->
     <script>
-        // Inicialización corrigiendo el conflicto de variable con window.supabase
         const SUPABASE_URL = 'https://wwafeitljxnlvmjtwsjz.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_9jlzQGRdEZhBtbofd-poZw_pIG74t42';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // --- FUNCIONES DEL MODAL EXPUESTAS GLOBALMENTE EN WINDOW ---
         window.openAuthModal = function(tab = 'login') {
             const authErrorMsg = document.getElementById('auth-error-msg');
             const authModal = document.getElementById('auth-modal');
@@ -289,11 +287,9 @@
             }
         };
 
-        // Estado Global del Usuario y Perfil
         let currentUser = null;
         let currentProfile = null;
 
-        // Referencias DOM
         const userInfo = document.getElementById('user-info');
         const authButtons = document.getElementById('auth-buttons');
         const userDisplayName = document.getElementById('user-display-name');
@@ -303,7 +299,6 @@
         const ideaAuthWarning = document.getElementById('idea-auth-warning');
         const chatAuthWarning = document.getElementById('chat-auth-warning');
 
-        // --- INICIALIZACIÓN ---
         document.addEventListener('DOMContentLoaded', async () => {
             await checkUserSession();
             await loadIdeas();
@@ -311,7 +306,6 @@
             subscribeRealtimeChat();
         });
 
-        // --- AUTENTICACIÓN Y SESIÓN ---
         async function checkUserSession() {
             const { data: { session } } = await supabaseClient.auth.getSession();
             if (session) {
@@ -325,7 +319,6 @@
         }
 
         async function fetchProfile(userId) {
-            // Se usó .maybeSingle() para evitar el error 406 cuando la fila no existe
             const { data, error } = await supabaseClient
                 .from('ruda_profiles')
                 .select('*')
@@ -335,7 +328,6 @@
             if (data) {
                 currentProfile = data;
             } else {
-                // Si la consulta devuelve null por retraso o falta de fila, se usan metadatos de Auth
                 currentProfile = {
                     username: currentUser?.user_metadata?.username || currentUser?.email?.split('@')[0] || 'usuario',
                     city: currentUser?.user_metadata?.city || 'México'
@@ -359,7 +351,6 @@
             }
         }
 
-        // Event listener Cerrar Sesión
         document.getElementById('btn-logout').addEventListener('click', async () => {
             await supabaseClient.auth.signOut();
             currentUser = null;
@@ -367,7 +358,7 @@
             updateUIState();
         });
 
-        // Form Login Handler
+        // Form Login
         document.getElementById('form-login').addEventListener('submit', async (e) => {
             e.preventDefault();
             authErrorMsg.classList.add('hidden');
@@ -386,7 +377,7 @@
             closeAuthModal();
         });
 
-        // Form Register Handler
+        // Form Register
         document.getElementById('form-register').addEventListener('submit', async (e) => {
             e.preventDefault();
             authErrorMsg.classList.add('hidden');
@@ -401,7 +392,6 @@
                 return;
             }
 
-            // 1. SignUp pasando opciones de metadatos de usuario
             const { data: authData, error: authError } = await supabaseClient.auth.signUp({ 
                 email, 
                 password,
@@ -419,23 +409,19 @@
             }
 
             if (authData.user) {
-                // 2. Intentar inserción explícita en ruda_profiles
-                const { error: profileError } = await supabaseClient
-                    .from('ruda_profiles')
-                    .insert([{
-                        id: authData.user.id,
-                        username: username,
-                        city: city
-                    }]);
-
-                if (profileError) {
-                    console.info("Información de sincronización de perfil:", profileError.message);
-                }
-
                 currentUser = authData.user;
-                await fetchProfile(currentUser.id);
-                updateUIState();
-                closeAuthModal();
+                // Intento secundario de inserción manual para entornos sin Trigger de Postgres
+                await supabaseClient.from('ruda_profiles').insert([{
+                    id: authData.user.id,
+                    username: username,
+                    city: city
+                }]).catch(() => {});
+
+                setTimeout(async () => {
+                    await fetchProfile(currentUser.id);
+                    updateUIState();
+                    closeAuthModal();
+                }, 300);
             }
         });
 
@@ -444,7 +430,7 @@
             authErrorMsg.classList.remove('hidden');
         }
 
-        // --- SECCIÓN COLUMNA A: IDEAS Y CONCEPTOS ---
+        // --- IDEAS Y CONCEPTOS ---
         async function loadIdeas() {
             const feedContainer = document.getElementById('ideas-feed');
             
@@ -481,7 +467,6 @@
                         <p class="text-xs text-gray-300 leading-relaxed">${idea.description}</p>
                     </div>
 
-                    <!-- Botón de Voto -->
                     <button onclick="voteIdea(${idea.id}, ${idea.votes})" class="flex flex-col items-center justify-center bg-asfalto-900 border border-asfalto-600 hover:border-oliva px-3 py-2 min-w-[50px] transition-colors group">
                         <span class="text-xs text-oliva-light group-hover:scale-125 transition-transform">▲</span>
                         <span class="text-sm font-mono font-bold text-white">${idea.votes}</span>
@@ -490,7 +475,6 @@
             `).join('');
         }
 
-        // Publicar Nueva Idea
         document.getElementById('form-idea').addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!currentUser) {
@@ -521,7 +505,6 @@
             await loadIdeas();
         });
 
-        // Votar Idea (+1)
         window.voteIdea = async function(ideaId, currentVotes) {
             if (!currentUser) {
                 openAuthModal('login');
@@ -541,7 +524,7 @@
             await loadIdeas();
         };
 
-        // --- SECCIÓN COLUMNA B: CHAT EN TIEMPO REAL ---
+        // --- CHAT EN TIEMPO REAL ---
         async function loadChatMessages() {
             const chatBox = document.getElementById('chat-box');
             
@@ -589,11 +572,9 @@
                 `;
             }).join('');
 
-            // Scroll automático al final
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
-        // Enviar mensaje al chat
         document.getElementById('form-chat').addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!currentUser) {
@@ -620,7 +601,6 @@
             input.value = '';
         });
 
-        // Suscripción Realtime a ruda_chat
         function subscribeRealtimeChat() {
             supabaseClient
                 .channel('public:ruda_chat')

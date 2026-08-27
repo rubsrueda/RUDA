@@ -246,7 +246,7 @@
         </div>
     </div>
 
-    <!-- LOGICA SUPABASE VANILLA JS -->
+   <!-- LOGICA SUPABASE VANILLA JS -->
     <script>
         // Inicialización corrigiendo el conflicto de variable con window.supabase
         const SUPABASE_URL = 'https://wwafeitljxnlvmjtwsjz.supabase.co';
@@ -325,18 +325,20 @@
         }
 
         async function fetchProfile(userId) {
+            // Se usó .maybeSingle() para evitar el error 406 cuando la fila no existe
             const { data, error } = await supabaseClient
                 .from('ruda_profiles')
                 .select('*')
                 .eq('id', userId)
-                .single();
+                .maybeSingle();
+
             if (data) {
                 currentProfile = data;
             } else {
-                // Si la consulta devuelve nulo por retraso de trigger, usamos datos locales de metadatos
+                // Si la consulta devuelve null por retraso o falta de fila, se usan metadatos de Auth
                 currentProfile = {
-                    username: currentUser.user_metadata?.username || currentUser.email.split('@')[0],
-                    city: currentUser.user_metadata?.city || 'México'
+                    username: currentUser?.user_metadata?.username || currentUser?.email?.split('@')[0] || 'usuario',
+                    city: currentUser?.user_metadata?.city || 'México'
                 };
             }
         }
@@ -384,7 +386,7 @@
             closeAuthModal();
         });
 
-        // Form Register Handler (Actualizado para pasar metadatos en signUp)
+        // Form Register Handler
         document.getElementById('form-register').addEventListener('submit', async (e) => {
             e.preventDefault();
             authErrorMsg.classList.add('hidden');
@@ -426,7 +428,6 @@
                         city: city
                     }]);
 
-                // Ignoramos errores 403 o duplicación en caso de que existan Triggers RLS en el servidor
                 if (profileError) {
                     console.info("Información de sincronización de perfil:", profileError.message);
                 }

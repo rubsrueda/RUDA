@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RUDA — La primera motocicleta de 400cc diseñada para sobrevivir a México</title>
     <meta name="description" content="RUDA Serie 01. $99,500 MXN. Motor 400cc sobrio de 40 HP, ruedas de radios tubeless indestructibles y plásticos teñidos en masa. Estilo Tool-Watch.">
+    <!-- Favicon SVG dinámico para evitar error 404 -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏍️</text></svg>">
     <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -70,7 +72,7 @@
                 <span class="text-3xl font-black tracking-tighter text-white font-mono uppercase">RUDA</span>
             </a>
 
-            <!-- Desktop Nav Links (AQUÍ ESTÁ AGREGADO EL ENLACE A COMUNIDAD) -->
+            <!-- Desktop Nav Links -->
             <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold uppercase tracking-wider text-gray-400">
                 <a href="#concepto" class="hover:text-oliva-light transition-colors">Concepto</a>
                 <a href="#especificaciones" class="hover:text-oliva-light transition-colors">Especificaciones</a>
@@ -465,132 +467,77 @@
         </section>
 
         <!-- FORMULARIO DE REGISTRO (PREVENTA / SMOKE TEST) (#registro) -->
-<section id="registro" class="py-20 bg-asfalto-800 border-b border-asfalto-700 relative">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div class="bg-asfalto-900 border-2 border-oliva/60 p-6 sm:p-10 shadow-2xl relative">
-            <!-- Top Ribbon -->
-            <div class="absolute -top-3 left-6 bg-oliva px-3 py-0.5 text-[10px] font-mono font-bold text-white uppercase tracking-widest border border-oliva-light">
-                RESERVA PRIORITARIA // PREVENTA
-            </div>
-
-            <div class="text-center mb-8">
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-white uppercase font-mono tracking-tight">
-                    Acceso Exclusivo a la Serie 01
-                </h2>
-                <p class="text-sm text-gray-300 mt-2">
-                    Registra tus datos para asegurar tu prioridad en la asignación de las primeras 1,000 unidades numeradas.
-                </p>
-            </div>
-
-            <!-- Form Message Box -->
-            <div id="form-message" class="hidden mb-6 p-4 border font-mono text-sm text-center"></div>
-
-            <!-- Smoke Test Form (Web3Forms Integration) -->
-            <form id="smoke-test-form" action="https://api.web3forms.com/submit" method="POST" class="space-y-5">
+        <section id="registro" class="py-20 bg-asfalto-800 border-b border-asfalto-700 relative">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
                 
-                <!-- TU ACCESS KEY DE WEB3FORMS (Reemplaza con tu token real de https://web3forms.com) -->
-                <input type="hidden" name="access_key" value="f2fed33b-5c85-404b-b673-4b5094d5ed79">
-                
-                <!-- Título del correo que recibirás -->
-                <input type="hidden" name="subject" value="NUEVO REGISTRO: RUDA Serie 01 (Smoke Test)">
-                
-                <!-- Anti-Spam Honeypot (Oculto) -->
-                <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
-
-                <div>
-                    <label for="nombre" class="block text-xs font-mono font-bold text-gray-300 uppercase mb-2">Nombre completo *</label>
-                    <input type="text" id="nombre" name="nombre" required placeholder="Ej. Carlos Mendoza" class="w-full bg-asfalto-800 border border-asfalto-600 px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-oliva text-sm transition-colors">
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                        <label for="email" class="block text-xs font-mono font-bold text-gray-300 uppercase mb-2">Correo electrónico *</label>
-                        <input type="email" id="email" name="email" required placeholder="carlos@ejemplo.com" class="w-full bg-asfalto-800 border border-asfalto-600 px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-oliva text-sm transition-colors">
+                <div class="bg-asfalto-900 border-2 border-oliva/60 p-6 sm:p-10 shadow-2xl relative">
+                    <!-- Top Ribbon -->
+                    <div class="absolute -top-3 left-6 bg-oliva px-3 py-0.5 text-[10px] font-mono font-bold text-white uppercase tracking-widest border border-oliva-light">
+                        RESERVA PRIORITARIA // PREVENTA
                     </div>
 
-                    <div>
-                        <label for="telefono" class="block text-xs font-mono font-bold text-gray-300 uppercase mb-2">Teléfono (WhatsApp) *</label>
-                        <input type="tel" id="telefono" name="telefono" required placeholder="55 1234 5678" class="w-full bg-asfalto-800 border border-asfalto-600 px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-oliva text-sm transition-colors">
+                    <div class="text-center mb-8">
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-white uppercase font-mono tracking-tight">
+                            Acceso Exclusivo a la Serie 01
+                        </h2>
+                        <p class="text-sm text-gray-300 mt-2">
+                            Registra tus datos para asegurar tu prioridad en la asignación de las primeras 1,000 unidades numeradas.
+                        </p>
                     </div>
+
+                    <!-- Form Message Box -->
+                    <div id="form-message" class="hidden mb-6 p-4 border font-mono text-sm text-center"></div>
+
+                    <!-- Smoke Test Form (Web3Forms Integration) -->
+                    <form id="smoke-test-form" action="https://api.web3forms.com/submit" method="POST" class="space-y-5">
+                        
+                        <!-- Access Key Web3Forms -->
+                        <input type="hidden" name="access_key" value="f2fed33b-5c85-404b-b673-4b5094d5ed79">
+                        
+                        <!-- Título del correo -->
+                        <input type="hidden" name="subject" value="NUEVO REGISTRO: RUDA Serie 01 (Smoke Test)">
+                        
+                        <!-- Anti-Spam Honeypot -->
+                        <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+                        <div>
+                            <label for="nombre" class="block text-xs font-mono font-bold text-gray-300 uppercase mb-2">Nombre completo *</label>
+                            <input type="text" id="nombre" name="nombre" required placeholder="Ej. Carlos Mendoza" class="w-full bg-asfalto-800 border border-asfalto-600 px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-oliva text-sm transition-colors">
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div>
+                                <label for="email" class="block text-xs font-mono font-bold text-gray-300 uppercase mb-2">Correo electrónico *</label>
+                                <input type="email" id="email" name="email" required placeholder="carlos@ejemplo.com" class="w-full bg-asfalto-800 border border-asfalto-600 px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-oliva text-sm transition-colors">
+                            </div>
+
+                            <div>
+                                <label for="telefono" class="block text-xs font-mono font-bold text-gray-300 uppercase mb-2">Teléfono (WhatsApp) *</label>
+                                <input type="tel" id="telefono" name="telefono" required placeholder="55 1234 5678" class="w-full bg-asfalto-800 border border-asfalto-600 px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-oliva text-sm transition-colors">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="ciudad" class="block text-xs font-mono font-bold text-gray-300 uppercase mb-2">Ciudad / Estado *</label>
+                            <input type="text" id="ciudad" name="ciudad" required placeholder="Ej. Ciudad de México, CDMX" class="w-full bg-asfalto-800 border border-asfalto-600 px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-oliva text-sm transition-colors">
+                        </div>
+
+                        <div class="pt-3">
+                            <button type="submit" id="submit-btn" class="w-full py-4 px-6 bg-oliva hover:bg-oliva-light border border-oliva-light text-white font-bold font-mono text-sm uppercase tracking-wider transition-all shadow-lg hover:shadow-oliva/30 flex items-center justify-center">
+                                <span id="btn-text">Quiero mi RUDA Serie 01</span>
+                            </button>
+                        </div>
+
+                    </form>
+
+                    <p class="text-[11px] font-mono text-gray-400 text-center mt-6 leading-relaxed">
+                        Sin compromiso de compra inmediato. Nos pondremos en contacto para coordinar la prueba de manejo cuando los prototipos de homologación estén en calle.
+                    </p>
+
                 </div>
 
-                <div>
-                    <label for="ciudad" class="block text-xs font-mono font-bold text-gray-300 uppercase mb-2">Ciudad / Estado *</label>
-                    <input type="text" id="ciudad" name="ciudad" required placeholder="Ej. Ciudad de México, CDMX" class="w-full bg-asfalto-800 border border-asfalto-600 px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-oliva text-sm transition-colors">
-                </div>
-
-                <div class="pt-3">
-                    <button type="submit" id="submit-btn" class="w-full py-4 px-6 bg-oliva hover:bg-oliva-light border border-oliva-light text-white font-bold font-mono text-sm uppercase tracking-wider transition-all shadow-lg hover:shadow-oliva/30 flex items-center justify-center">
-                        <span id="btn-text">Quiero mi RUDA Serie 01</span>
-                    </button>
-                </div>
-
-            </form>
-
-            <p class="text-[11px] font-mono text-gray-400 text-center mt-6 leading-relaxed">
-                Sin compromiso de compra inmediato. Nos pondremos en contacto para coordinar la prueba de manejo cuando los prototipos de homologación estén en calle.
-            </p>
-
-        </div>
-
-    </div>
-</section>
-
-<!-- SCRIPT JS ASÍNCRONO ACTUALIZADO (Colócalo antes del cierre de </body>) -->
-<script>
-    const form = document.getElementById('smoke-test-form');
-    const formMessage = document.getElementById('form-message');
-    const submitBtn = document.getElementById('submit-btn');
-    const btnText = document.getElementById('btn-text');
-
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Estado de carga visual en el botón
-        btnText.textContent = "ENVIANDO DATOS...";
-        submitBtn.disabled = true;
-        submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
-
-        const formData = new FormData(form);
-        const object = Object.fromEntries(formData);
-        const json = JSON.stringify(object);
-
-        fetch('https://api.web3forms.com/submit', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: json
-        })
-        .then(async (response) => {
-            let json = await response.json();
-            if (response.status == 200) {
-                // Mensaje de éxito estilizado
-                formMessage.className = "mb-6 p-4 bg-oliva/20 border border-oliva text-oliva-light text-sm font-mono text-center";
-                formMessage.textContent = "¡Registro exitoso! Te hemos añadido a la lista de espera prioritaria de la Serie 01.";
-                form.reset();
-            } else {
-                // Mensaje de error
-                formMessage.className = "mb-6 p-4 bg-red-900/30 border border-red-500 text-red-300 text-sm font-mono text-center";
-                formMessage.textContent = json.message || "Hubo un error al procesar tu solicitud. Intenta de nuevo.";
-            }
-        })
-        .catch(error => {
-            formMessage.className = "mb-6 p-4 bg-red-900/30 border border-red-500 text-red-300 text-sm font-mono text-center";
-            formMessage.textContent = "Error de conexión. Inténtalo más tarde.";
-        })
-        .then(function() {
-            // Restaurar estado del botón
-            formMessage.classList.remove('hidden');
-            formMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            btnText.textContent = "Quiero mi RUDA Serie 01";
-            submitBtn.disabled = false;
-            submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
-        });
-    });
-</script>
+            </div>
+        </section>
 
     </main>
 
@@ -619,39 +566,81 @@
         </div>
     </footer>
 
-    <!-- JS Scripts -->
+    <!-- LOGICA JS UNIFICADA (Navegación Móvil + Envío Web3Forms) -->
     <script>
-        // Mobile menu toggle logic
+        // 1. Menú Hamburguesa
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const mobileLinks = document.querySelectorAll('.mobile-link');
 
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
             });
-        });
 
-        // Form submission logic
-        const form = document.getElementById('smoke-test-form');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        }
+
+        // 2. Envío de Formulario Web3Forms
+        const smokeForm = document.getElementById('smoke-test-form');
         const formMessage = document.getElementById('form-message');
+        const submitBtn = document.getElementById('submit-btn');
+        const btnText = document.getElementById('btn-text');
 
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Show success message
-            formMessage.classList.remove('hidden');
-            
-            // Scroll smoothly to message
-            formMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            
-            // Reset form input fields
-            form.reset();
-        });
+        if (smokeForm) {
+            smokeForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (btnText) btnText.textContent = "ENVIANDO DATOS...";
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+                }
+
+                const formData = new FormData(smokeForm);
+                const object = Object.fromEntries(formData);
+                const json = JSON.stringify(object);
+
+                fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: json
+                })
+                .then(async (response) => {
+                    let resJson = await response.json();
+                    if (response.status == 200) {
+                        formMessage.className = "mb-6 p-4 bg-oliva/20 border border-oliva text-oliva-light text-sm font-mono text-center";
+                        formMessage.textContent = "¡Registro exitoso! Te hemos añadido a la lista de espera prioritaria de la Serie 01.";
+                        smokeForm.reset();
+                    } else {
+                        formMessage.className = "mb-6 p-4 bg-red-900/30 border border-red-500 text-red-300 text-sm font-mono text-center";
+                        formMessage.textContent = resJson.message || "Hubo un error al procesar tu solicitud. Intenta de nuevo.";
+                    }
+                })
+                .catch(error => {
+                    formMessage.className = "mb-6 p-4 bg-red-900/30 border border-red-500 text-red-300 text-sm font-mono text-center";
+                    formMessage.textContent = "Error de conexión. Inténtalo más tarde.";
+                })
+                .then(function() {
+                    if (formMessage) {
+                        formMessage.classList.remove('hidden');
+                        formMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    if (btnText) btnText.textContent = "Quiero mi RUDA Serie 01";
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                    }
+                });
+            });
+        }
     </script>
 </body>
 </html>

@@ -332,6 +332,12 @@
                 .single();
             if (data) {
                 currentProfile = data;
+            } else {
+                // Si la consulta devuelve nulo por retraso de trigger, usamos datos locales de metadatos
+                currentProfile = {
+                    username: currentUser.user_metadata?.username || currentUser.email.split('@')[0],
+                    city: currentUser.user_metadata?.city || 'México'
+                };
             }
         }
 
@@ -378,7 +384,7 @@
             closeAuthModal();
         });
 
-        // Form Register Handler
+        // Form Register Handler (Actualizado para pasar metadatos en signUp)
         document.getElementById('form-register').addEventListener('submit', async (e) => {
             e.preventDefault();
             authErrorMsg.classList.add('hidden');
@@ -393,15 +399,25 @@
                 return;
             }
 
-            // 1. SignUp en Auth
-            const { data: authData, error: authError } = await supabaseClient.auth.signUp({ email, password });
+            // 1. SignUp pasando opciones de metadatos de usuario
+            const { data: authData, error: authError } = await supabaseClient.auth.signUp({ 
+                email, 
+                password,
+                options: {
+                    data: {
+                        username: username,
+                        city: city
+                    }
+                }
+            });
+
             if (authError) {
                 showAuthError(authError.message);
                 return;
             }
 
             if (authData.user) {
-                // 2. Insertar Perfil en ruda_profiles
+                // 2. Intentar inserción explícita en ruda_profiles
                 const { error: profileError } = await supabaseClient
                     .from('ruda_profiles')
                     .insert([{
@@ -410,9 +426,9 @@
                         city: city
                     }]);
 
+                // Ignoramos errores 403 o duplicación en caso de que existan Triggers RLS en el servidor
                 if (profileError) {
-                    showAuthError(profileError.message);
-                    return;
+                    console.info("Información de sincronización de perfil:", profileError.message);
                 }
 
                 currentUser = authData.user;

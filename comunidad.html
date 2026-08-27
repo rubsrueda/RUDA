@@ -319,7 +319,7 @@
         }
 
         async function fetchProfile(userId) {
-            const { data, error } = await supabaseClient
+            const { data } = await supabaseClient
                 .from('ruda_profiles')
                 .select('*')
                 .eq('id', userId)
@@ -367,7 +367,7 @@
 
             const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
             if (error) {
-                showAuthError(error.message);
+                showAuthError("Error de credenciales: Revisa tu correo o contraseña.");
                 return;
             }
 
@@ -392,6 +392,7 @@
                 return;
             }
 
+            // Registro pasándole metadatos directamente a Auth
             const { data: authData, error: authError } = await supabaseClient.auth.signUp({ 
                 email, 
                 password,
@@ -410,18 +411,17 @@
 
             if (authData.user) {
                 currentUser = authData.user;
-                // Intento secundario de inserción manual para entornos sin Trigger de Postgres
+                
+                // Intento seguro de inserción manual
                 await supabaseClient.from('ruda_profiles').insert([{
                     id: authData.user.id,
                     username: username,
                     city: city
-                }]).catch(() => {});
+                }]).then(() => {}).catch(() => {});
 
-                setTimeout(async () => {
-                    await fetchProfile(currentUser.id);
-                    updateUIState();
-                    closeAuthModal();
-                }, 300);
+                await fetchProfile(currentUser.id);
+                updateUIState();
+                closeAuthModal();
             }
         });
 

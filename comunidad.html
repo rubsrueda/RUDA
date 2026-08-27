@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="es" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comunidad RUDA — Co-Creación & Chat</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Supabase JS CDN (v2) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        oliva: {
+                            DEFAULT: '#4B5320',
+                            light: '#5c6628',
+                            dark: '#383e18',
+                        },
+                        asfalto: {
+                            900: '#121212',
+                            800: '#1E1E1E',
+                            700: '#2A2A2A',
+                            600: '#3D3D3D',
+                            500: '#525252',
+                        },
+                        acero: '#8A9A86',
+                    },
+                    fontFamily: {
+                        sans: ['ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'],
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'liberation mono', 'courier new', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #3D3D3D; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4B5320; }
+        .bg-grid-pattern {
+            background-image: radial-gradient(rgba(75, 83, 32, 0.15) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="bg-asfalto-900 text-gray-200 antialiased font-sans selection:bg-oliva selection:text-white flex flex-col min-h-screen">
+
+    <!-- NAVBAR -->
+    <header class="bg-asfalto-900/90 backdrop-blur-md border-b border-asfalto-700 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <div class="w-4 h-8 bg-oliva border border-oliva-light group-hover:bg-oliva-light transition-colors"></div>
+                    <span class="text-3xl font-black tracking-tighter text-white font-mono uppercase">RUDA</span>
+                </a>
+                <span class="text-xs font-mono bg-asfalto-800 text-oliva-light px-2.5 py-1 border border-asfalto-700 hidden sm:inline-block">
+                    // COMUNIDAD CO-CREADORA
+                </span>
+            </div>
+
+            <!-- Estado de Sesión / Botones -->
+            <div class="flex items-center gap-4">
+                <div id="user-info" class="hidden flex items-center gap-3">
+                    <div class="text-right">
+                        <span id="user-display-name" class="block text-sm font-bold text-white font-mono">@usuario</span>
+                        <span id="user-display-city" class="block text-[10px] text-gray-400 font-mono">CDMX</span>
+                    </div>
+                    <button id="btn-logout" class="px-3 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-red-400 hover:text-white bg-red-950/40 hover:bg-red-900 border border-red-800 transition-colors">
+                        Salir
+                    </button>
+                </div>
+
+                <div id="auth-buttons" class="flex items-center gap-2">
+                    <button onclick="openAuthModal('login')" class="px-4 py-2 text-xs font-bold font-mono uppercase tracking-wider text-white bg-asfalto-800 hover:bg-asfalto-700 border border-asfalto-600 transition-colors">
+                        Ingresar
+                    </button>
+                    <button onclick="openAuthModal('register')" class="px-4 py-2 text-xs font-bold font-mono uppercase tracking-wider text-white bg-oliva hover:bg-oliva-light border border-oliva-light transition-all shadow-lg">
+                        Registrarse
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ÁREA PRINCIPAL -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 h-full">
+
+            <!-- COLUMNA A: IDEAS Y CONCEPTOS (7 Cols) -->
+            <section class="lg:col-span-7 space-y-6">
+                
+                <div class="bg-asfalto-800 border border-asfalto-700 p-6 shadow-xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-extrabold text-white font-mono uppercase">
+                            // Laboratorio de Ideas
+                        </h2>
+                        <span class="text-xs font-mono text-gray-400">PROPUESTAS DE LA SERIE 01</span>
+                    </div>
+                    <p class="text-xs text-gray-300 mb-6">
+                        Propon mejoras mecánicas, accesorios o ajustes de MaaS. Las ideas más votadas por la comunidad serán evaluadas directamente por el equipo de ingeniería de RUDA.
+                    </p>
+
+                    <!-- Formulario Publicar Idea -->
+                    <form id="form-idea" class="space-y-4 bg-asfalto-900 p-4 border border-asfalto-700">
+                        <div id="idea-auth-warning" class="hidden p-3 bg-oliva/10 border border-oliva/40 text-oliva-light text-xs font-mono">
+                            * Debes <button type="button" onclick="openAuthModal('login')" class="underline font-bold">iniciar sesión</button> para enviar tu propuesta.
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-mono font-bold text-gray-400 uppercase mb-1">Título de la propuesta</label>
+                            <input type="text" id="idea-title" required placeholder="Ej. Cubrepuños de aluminio integrados de serie" class="w-full bg-asfalto-800 border border-asfalto-600 px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-oliva">
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[11px] font-mono font-bold text-gray-400 uppercase mb-1">Categoría</label>
+                                <select id="idea-category" required class="w-full bg-asfalto-800 border border-asfalto-600 px-3 py-2 text-sm text-white focus:outline-none focus:border-oliva">
+                                    <option value="Motor/Chasis">Motor/Chasis</option>
+                                    <option value="Diseño/Plásticos">Diseño/Plásticos</option>
+                                    <option value="Eléctrico/Accesorios">Eléctrico/Accesorios</option>
+                                    <option value="Servicio/MaaS">Servicio/MaaS</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-mono font-bold text-gray-400 uppercase mb-1">Descripción detallada</label>
+                            <textarea id="idea-desc" rows="3" required placeholder="Explica por qué esta modificación hace sentido para las calles de México..." class="w-full bg-asfalto-800 border border-asfalto-600 px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-oliva"></textarea>
+                        </div>
+
+                        <button type="submit" id="btn-submit-idea" class="w-full py-2.5 bg-oliva hover:bg-oliva-light border border-oliva-light text-white font-mono font-bold text-xs uppercase tracking-wider transition-all">
+                            Publicar Propuesta
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Feed de Ideas -->
+                <div class="space-y-4">
+                    <h3 class="text-sm font-mono font-bold text-gray-400 uppercase tracking-widest">// FEED DE PROPUESTAS COMUNITARIAS</h3>
+                    <div id="ideas-feed" class="space-y-4">
+                        <div class="text-center py-8 font-mono text-xs text-gray-500">Cargando propuestas...</div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- COLUMNA B: CHAT EN VIVO DE LA COMUNIDAD (5 Cols) -->
+            <section class="lg:col-span-5 flex flex-col h-[650px] bg-asfalto-800 border border-asfalto-700 shadow-xl">
+                
+                <div class="p-4 bg-asfalto-900 border-b border-asfalto-700 flex items-center justify-between">
+                    <div>
+                        <h2 class="text-lg font-extrabold text-white font-mono uppercase flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                            Chat en Vivo
+                        </h2>
+                        <span class="text-[10px] font-mono text-gray-400">CANAL OFICIAL DE CO-CREADORES</span>
+                    </div>
+                    <span id="chat-count" class="text-xs font-mono text-oliva-light border border-oliva/30 px-2 py-0.5 bg-oliva/10">0 msgs</span>
+                </div>
+
+                <!-- Box de Mensajes con Scroll -->
+                <div id="chat-box" class="flex-grow p-4 overflow-y-auto space-y-3 bg-asfalto-900/50">
+                    <div class="text-center py-8 font-mono text-xs text-gray-500">Conectando al canal en vivo...</div>
+                </div>
+
+                <!-- Input de Enviar Mensaje -->
+                <div class="p-3 bg-asfalto-900 border-t border-asfalto-700">
+                    <div id="chat-auth-warning" class="hidden mb-2 p-2 bg-oliva/10 border border-oliva/30 text-oliva-light text-[11px] font-mono text-center">
+                        Inicia sesión para participar en el chat.
+                    </div>
+                    <form id="form-chat" class="flex gap-2">
+                        <input type="text" id="chat-input" placeholder="Escribe tu mensaje..." class="flex-grow bg-asfalto-800 border border-asfalto-600 px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-oliva">
+                        <button type="submit" id="btn-send-chat" class="px-4 py-2 bg-oliva hover:bg-oliva-light border border-oliva-light text-white font-mono font-bold text-xs uppercase">
+                            Enviar
+                        </button>
+                    </form>
+                </div>
+
+            </section>
+
+        </div>
+    </main>
+
+    <!-- MODAL DE AUTENTICACIÓN (LOGIN / REGISTRO) -->
+    <div id="auth-modal" class="fixed inset-0 z-50 bg-asfalto-900/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-asfalto-900 border-2 border-oliva-light w-full max-w-md p-6 relative shadow-2xl">
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white font-mono font-bold text-lg">✕</button>
+            
+            <!-- Tabs Modal Header -->
+            <div class="flex border-b border-asfalto-700 mb-6">
+                <button id="tab-login-btn" onclick="switchAuthTab('login')" class="w-1/2 py-2 text-center font-mono font-bold text-sm uppercase tracking-wider border-b-2 border-oliva text-white">
+                    Iniciar Sesión
+                </button>
+                <button id="tab-register-btn" onclick="switchAuthTab('register')" class="w-1/2 py-2 text-center font-mono font-bold text-sm uppercase tracking-wider border-b-2 border-transparent text-gray-400 hover:text-gray-200">
+                    Registrarse
+                </button>
+            </div>
+
+            <!-- Error Banner -->
+            <div id="auth-error-msg" class="hidden mb-4 p-3 bg-red-950/60 border border-red-600 text-red-300 text-xs font-mono"></div>
+
+            <!-- FORMULARIO LOGIN -->
+            <form id="form-login" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-mono font-bold text-gray-300 uppercase mb-1">Correo electrónico</label>
+                    <input type="email" id="login-email" required placeholder="tu@email.com" class="w-full bg-asfalto-800 border border-asfalto-600 px-3 py-2 text-sm text-white focus:outline-none focus:border-oliva">
+                </div>
+                <div>
+                    <label class="block text-xs font-mono font-bold text-gray-300 uppercase mb-1">Contraseña</label>
+                    <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-asfalto-800 border border-asfalto-600 px-3 py-2 text-sm text-white focus:outline-none focus:border-oliva">
+                </div>
+                <button type="submit" class="w-full py-3 bg-oliva hover:bg-oliva-light border border-oliva-light text-white font-mono font-bold text-xs uppercase tracking-wider transition-colors">
+                    Entrar a la Comunidad
+                </button>
+            </form>
+
+            <!-- FORMULARIO REGISTRO -->
+            <form id="form-register" class="space-y-4 hidden">
+                <div>
+                    <label class="block text-xs font-mono font-bold text-gray-300 uppercase mb-1">Usuario (Username)</label>
+                    <input type="text" id="reg-username" required placeholder="ej. piloto_ruda" class="w-full bg-asfalto-800 border border-asfalto-600 px-3 py-2 text-sm text-white focus:outline-none focus:border-oliva">
+                </div>
+                <div>
+                    <label class="block text-xs font-mono font-bold text-gray-300 uppercase mb-1">Ciudad / Estado</label>
+                    <input type="text" id="reg-city" required placeholder="ej. Guadalajara, JAL" class="w-full bg-asfalto-800 border border-asfalto-600 px-3 py-2 text-sm text-white focus:outline-none focus:border-oliva">
+                </div>
+                <div>
+                    <label class="block text-xs font-mono font-bold text-gray-300 uppercase mb-1">Correo electrónico</label>
+                    <input type="email" id="reg-email" required placeholder="tu@email.com" class="w-full bg-asfalto-800 border border-asfalto-600 px-3 py-2 text-sm text-white focus:outline-none focus:border-oliva">
+                </div>
+                <div>
+                    <label class="block text-xs font-mono font-bold text-gray-300 uppercase mb-1">Contraseña (Mínimo 6 caracteres)</label>
+                    <input type="password" id="reg-password" minlength="6" required placeholder="••••••••" class="w-full bg-asfalto-800 border border-asfalto-600 px-3 py-2 text-sm text-white focus:outline-none focus:border-oliva">
+                </div>
+                <button type="submit" class="w-full py-3 bg-oliva hover:bg-oliva-light border border-oliva-light text-white font-mono font-bold text-xs uppercase tracking-wider transition-colors">
+                    Crear Cuenta de Co-Creador
+                </button>
+            </form>
+
+        </div>
+    </div>
+
+    <!-- LOGICA SUPABASE VANILLA JS -->
+    <script>
+        // Inicialización de Supabase con credenciales provistas
+        const SUPABASE_URL = 'https://wwafeitljxnlvmjtwsjz.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_9jlzQGRdEZhBtbofd-poZw_pIG74t42';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Estado Global del Usuario y Perfil
+        let currentUser = null;
+        let currentProfile = null;
+
+        // Referencias DOM
+        const userInfo = document.getElementById('user-info');
+        const authButtons = document.getElementById('auth-buttons');
+        const userDisplayName = document.getElementById('user-display-name');
+        const userDisplayCity = document.getElementById('user-display-city');
+        const authModal = document.getElementById('auth-modal');
+        const authErrorMsg = document.getElementById('auth-error-msg');
+        
+        const ideaAuthWarning = document.getElementById('idea-auth-warning');
+        const chatAuthWarning = document.getElementById('chat-auth-warning');
+
+        // --- INICIALIZACIÓN ---
+        document.addEventListener('DOMContentLoaded', async () => {
+            await checkUserSession();
+            await loadIdeas();
+            await loadChatMessages();
+            subscribeRealtimeChat();
+        });
+
+        // --- AUTENTICACIÓN Y SESIÓN ---
+        async function checkUserSession() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                currentUser = session.user;
+                await fetchProfile(currentUser.id);
+            } else {
+                currentUser = null;
+                currentProfile = null;
+            }
+            updateUIState();
+        }
+
+        async function fetchProfile(userId) {
+            const { data, error } = await supabase
+                .from('ruda_profiles')
+                .select('*')
+                .eq('id', userId)
+                .single();
+            if (data) {
+                currentProfile = data;
+            }
+        }
+
+        function updateUIState() {
+            if (currentUser && currentProfile) {
+                userDisplayName.textContent = `@${currentProfile.username}`;
+                userDisplayCity.textContent = currentProfile.city || 'México';
+                userInfo.classList.remove('hidden');
+                authButtons.classList.add('hidden');
+                ideaAuthWarning.classList.add('hidden');
+                chatAuthWarning.classList.add('hidden');
+            } else {
+                userInfo.classList.add('hidden');
+                authButtons.classList.remove('hidden');
+                ideaAuthWarning.classList.remove('hidden');
+                chatAuthWarning.classList.remove('hidden');
+            }
+        }
+
+        // Event listener Cerrar Sesión
+        document.getElementById('btn-logout').addEventListener('click', async () => {
+            await supabase.auth.signOut();
+            currentUser = null;
+            currentProfile = null;
+            updateUIState();
+        });
+
+        // Modal Controls & Tabs
+        function openAuthModal(tab = 'login') {
+            authErrorMsg.classList.add('hidden');
+            authModal.classList.remove('hidden');
+            switchAuthTab(tab);
+        }
+
+        function closeAuthModal() {
+            authModal.classList.add('hidden');
+        }
+
+        function switchAuthTab(tab) {
+            authErrorMsg.classList.add('hidden');
+            const formLogin = document.getElementById('form-login');
+            const formRegister = document.getElementById('form-register');
+            const tabLoginBtn = document.getElementById('tab-login-btn');
+            const tabRegisterBtn = document.getElementById('tab-register-btn');
+
+            if (tab === 'login') {
+                formLogin.classList.remove('hidden');
+                formRegister.classList.add('hidden');
+                tabLoginBtn.className = "w-1/2 py-2 text-center font-mono font-bold text-sm uppercase tracking-wider border-b-2 border-oliva text-white";
+                tabRegisterBtn.className = "w-1/2 py-2 text-center font-mono font-bold text-sm uppercase tracking-wider border-b-2 border-transparent text-gray-400 hover:text-gray-200";
+            } else {
+                formLogin.classList.add('hidden');
+                formRegister.classList.remove('hidden');
+                tabRegisterBtn.className = "w-1/2 py-2 text-center font-mono font-bold text-sm uppercase tracking-wider border-b-2 border-oliva text-white";
+                tabLoginBtn.className = "w-1/2 py-2 text-center font-mono font-bold text-sm uppercase tracking-wider border-b-2 border-transparent text-gray-400 hover:text-gray-200";
+            }
+        }
+
+        // Form Login Handler
+        document.getElementById('form-login').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            authErrorMsg.classList.add('hidden');
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+            if (error) {
+                showAuthError(error.message);
+                return;
+            }
+
+            currentUser = data.user;
+            await fetchProfile(currentUser.id);
+            updateUIState();
+            closeAuthModal();
+        });
+
+        // Form Register Handler
+        document.getElementById('form-register').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            authErrorMsg.classList.add('hidden');
+            
+            const username = document.getElementById('reg-username').value.trim();
+            const city = document.getElementById('reg-city').value.trim();
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+
+            if (password.length < 6) {
+                showAuthError("La contraseña debe tener al menos 6 caracteres.");
+                return;
+            }
+
+            // 1. SignUp en Auth
+            const { data: authData, error: authError } = await supabase.auth.signUp({ email, password });
+            if (authError) {
+                showAuthError(authError.message);
+                return;
+            }
+
+            if (authData.user) {
+                // 2. Insertar Perfil en ruda_profiles
+                const { error: profileError } = await supabase
+                    .from('ruda_profiles')
+                    .insert([{
+                        id: authData.user.id,
+                        username: username,
+                        city: city
+                    }]);
+
+                if (profileError) {
+                    showAuthError(profileError.message);
+                    return;
+                }
+
+                currentUser = authData.user;
+                await fetchProfile(currentUser.id);
+                updateUIState();
+                closeAuthModal();
+            }
+        });
+
+        function showAuthError(msg) {
+            authErrorMsg.textContent = msg;
+            authErrorMsg.classList.remove('hidden');
+        }
+
+
+        // --- SECCIÓN COLUMNA A: IDEAS Y CONCEPTOS ---
+        async function loadIdeas() {
+            const feedContainer = document.getElementById('ideas-feed');
+            
+            const { data: ideas, error } = await supabase
+                .from('ruda_ideas')
+                .select(`
+                    id, title, description, category, votes, created_at,
+                    ruda_profiles ( username, city )
+                `)
+                .order('votes', { ascending: false });
+
+            if (error) {
+                feedContainer.innerHTML = `<div class="text-red-400 font-mono text-xs text-center py-4">Error al cargar ideas: ${error.message}</div>`;
+                return;
+            }
+
+            if (!ideas || ideas.length === 0) {
+                feedContainer.innerHTML = `<div class="text-gray-500 font-mono text-xs text-center py-4">Aún no hay propuestas. ¡Sé el primero en crear una!</div>`;
+                return;
+            }
+
+            feedContainer.innerHTML = ideas.map(idea => `
+                <div class="bg-asfalto-800 border border-asfalto-700 p-5 hover:border-asfalto-600 transition-colors flex justify-between items-start gap-4">
+                    <div class="space-y-2 flex-grow">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-mono font-bold bg-oliva/20 text-oliva-light border border-oliva/40 px-2 py-0.5">
+                                ${idea.category}
+                            </span>
+                            <span class="text-[11px] font-mono text-gray-400">
+                                Por @${idea.ruda_profiles?.username || 'Anónimo'} (${idea.ruda_profiles?.city || 'MX'})
+                            </span>
+                        </div>
+                        <h4 class="text-base font-bold text-white font-mono">${idea.title}</h4>
+                        <p class="text-xs text-gray-300 leading-relaxed">${idea.description}</p>
+                    </div>
+
+                    <!-- Botón de Voto -->
+                    <button onclick="voteIdea(${idea.id}, ${idea.votes})" class="flex flex-col items-center justify-center bg-asfalto-900 border border-asfalto-600 hover:border-oliva px-3 py-2 min-w-[50px] transition-colors group">
+                        <span class="text-xs text-oliva-light group-hover:scale-125 transition-transform">▲</span>
+                        <span class="text-sm font-mono font-bold text-white">${idea.votes}</span>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Publicar Nueva Idea
+        document.getElementById('form-idea').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) {
+                openAuthModal('login');
+                return;
+            }
+
+            const title = document.getElementById('idea-title').value;
+            const category = document.getElementById('idea-category').value;
+            const description = document.getElementById('idea-desc').value;
+
+            const { error } = await supabase
+                .from('ruda_ideas')
+                .insert([{
+                    user_id: currentUser.id,
+                    title,
+                    category,
+                    description,
+                    votes: 1
+                }]);
+
+            if (error) {
+                alert(`Error al publicar idea: ${error.message}`);
+                return;
+            }
+
+            document.getElementById('form-idea').reset();
+            await loadIdeas();
+        });
+
+        // Votar Idea (+1)
+        async function voteIdea(ideaId, currentVotes) {
+            if (!currentUser) {
+                openAuthModal('login');
+                return;
+            }
+
+            const { error } = await supabase
+                .from('ruda_ideas')
+                .update({ votes: currentVotes + 1 })
+                .eq('id', ideaId);
+
+            if (error) {
+                alert(`Error al votar: ${error.message}`);
+                return;
+            }
+
+            await loadIdeas();
+        }
+
+
+        // --- SECCIÓN COLUMNA B: CHAT EN TIEMPO REAL ---
+        async function loadChatMessages() {
+            const chatBox = document.getElementById('chat-box');
+            
+            const { data: messages, error } = await supabase
+                .from('ruda_chat')
+                .select(`
+                    id, message, created_at,
+                    ruda_profiles ( username )
+                `)
+                .order('created_at', { ascending: true })
+                .limit(50);
+
+            if (error) {
+                chatBox.innerHTML = `<div class="text-red-400 font-mono text-xs text-center">Error al cargar chat: ${error.message}</div>`;
+                return;
+            }
+
+            renderChatMessages(messages || []);
+        }
+
+        function renderChatMessages(messages) {
+            const chatBox = document.getElementById('chat-box');
+            document.getElementById('chat-count').textContent = `${messages.length} msgs`;
+
+            if (messages.length === 0) {
+                chatBox.innerHTML = `<div class="text-gray-500 font-mono text-xs text-center py-4">No hay mensajes aún en la sala.</div>`;
+                return;
+            }
+
+            chatBox.innerHTML = messages.map(msg => {
+                const isMe = currentUser && msg.ruda_profiles?.username === currentProfile?.username;
+                const date = new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                return `
+                    <div class="flex flex-col ${isMe ? 'items-end' : 'items-start'}">
+                        <div class="flex items-center gap-1.5 mb-0.5 text-[10px] font-mono text-gray-400">
+                            <span class="${isMe ? 'text-oliva-light font-bold' : 'text-gray-300'}">@${msg.ruda_profiles?.username || 'Anónimo'}</span>
+                            <span>•</span>
+                            <span>${date}</span>
+                        </div>
+                        <div class="max-w-[85%] px-3 py-2 text-xs rounded-sm font-sans ${isMe ? 'bg-oliva text-white border border-oliva-light' : 'bg-asfalto-800 text-gray-200 border border-asfalto-700'}">
+                            ${msg.message}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Scroll automático al final
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Enviar mensaje al chat
+        document.getElementById('form-chat').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) {
+                openAuthModal('login');
+                return;
+            }
+
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            if (!message) return;
+
+            const { error } = await supabase
+                .from('ruda_chat')
+                .insert([{
+                    user_id: currentUser.id,
+                    message: message
+                }]);
+
+            if (error) {
+                alert(`Error al enviar mensaje: ${error.message}`);
+                return;
+            }
+
+            input.value = '';
+        });
+
+        // Suscripción Realtime a ruda_chat
+        function subscribeRealtimeChat() {
+            supabase
+                .channel('public:ruda_chat')
+                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'ruda_chat' }, async () => {
+                    await loadChatMessages();
+                })
+                .subscribe();
+        }
+    </script>
+</body>
+</html>

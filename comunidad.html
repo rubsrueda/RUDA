@@ -251,6 +251,42 @@
         const SUPABASE_KEY = 'sb_publishable_9jlzQGRdEZhBtbofd-poZw_pIG74t42';
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+        // --- FUNCIONES DEL MODAL (DECLARADAS PÚBLICAS Y GLOBALES EN WINDOW) ---
+        window.openAuthModal = function(tab = 'login') {
+            const authErrorMsg = document.getElementById('auth-error-msg');
+            const authModal = document.getElementById('auth-modal');
+            if (authErrorMsg) authErrorMsg.classList.add('hidden');
+            if (authModal) authModal.classList.remove('hidden');
+            window.switchAuthTab(tab);
+        };
+
+        window.closeAuthModal = function() {
+            const authModal = document.getElementById('auth-modal');
+            if (authModal) authModal.classList.add('hidden');
+        };
+
+        window.switchAuthTab = function(tab) {
+            const authErrorMsg = document.getElementById('auth-error-msg');
+            if (authErrorMsg) authErrorMsg.classList.add('hidden');
+            
+            const formLogin = document.getElementById('form-login');
+            const formRegister = document.getElementById('form-register');
+            const tabLoginBtn = document.getElementById('tab-login-btn');
+            const tabRegisterBtn = document.getElementById('tab-register-btn');
+
+            if (tab === 'login') {
+                if (formLogin) formLogin.classList.remove('hidden');
+                if (formRegister) formRegister.classList.add('hidden');
+                if (tabLoginBtn) tabLoginBtn.className = "w-1/2 py-2 text-center font-mono font-bold text-sm uppercase tracking-wider border-b-2 border-oliva text-white";
+                if (tabRegisterBtn) tabRegisterBtn.className = "w-1/2 py-2 text-center font-mono font-bold text-sm uppercase tracking-wider border-b-2 border-transparent text-gray-400 hover:text-gray-200";
+            } else {
+                if (formLogin) formLogin.classList.add('hidden');
+                if (formRegister) formRegister.classList.remove('hidden');
+                if (tabRegisterBtn) tabRegisterBtn.className = "w-1/2 py-2 text-center font-mono font-bold text-sm uppercase tracking-wider border-b-2 border-oliva text-white";
+                if (tabLoginBtn) tabLoginBtn.className = "w-1/2 py-2 text-center font-mono font-bold text-sm uppercase tracking-wider border-b-2 border-transparent text-gray-400 hover:text-gray-200";
+            }
+        };
+
         // Estado Global del Usuario y Perfil
         let currentUser = null;
         let currentProfile = null;
@@ -260,7 +296,6 @@
         const authButtons = document.getElementById('auth-buttons');
         const userDisplayName = document.getElementById('user-display-name');
         const userDisplayCity = document.getElementById('user-display-city');
-        const authModal = document.getElementById('auth-modal');
         const authErrorMsg = document.getElementById('auth-error-msg');
         
         const ideaAuthWarning = document.getElementById('idea-auth-warning');
@@ -321,37 +356,6 @@
             currentProfile = null;
             updateUIState();
         });
-
-        // Modal Controls & Tabs
-        function openAuthModal(tab = 'login') {
-            authErrorMsg.classList.add('hidden');
-            authModal.classList.remove('hidden');
-            switchAuthTab(tab);
-        }
-
-        function closeAuthModal() {
-            authModal.classList.add('hidden');
-        }
-
-        function switchAuthTab(tab) {
-            authErrorMsg.classList.add('hidden');
-            const formLogin = document.getElementById('form-login');
-            const formRegister = document.getElementById('form-register');
-            const tabLoginBtn = document.getElementById('tab-login-btn');
-            const tabRegisterBtn = document.getElementById('tab-register-btn');
-
-            if (tab === 'login') {
-                formLogin.classList.remove('hidden');
-                formRegister.classList.add('hidden');
-                tabLoginBtn.className = "w-1/2 py-2 text-center font-mono font-bold text-sm uppercase tracking-wider border-b-2 border-oliva text-white";
-                tabRegisterBtn.className = "w-1/2 py-2 text-center font-mono font-bold text-sm uppercase tracking-wider border-b-2 border-transparent text-gray-400 hover:text-gray-200";
-            } else {
-                formLogin.classList.add('hidden');
-                formRegister.classList.remove('hidden');
-                tabRegisterBtn.className = "w-1/2 py-2 text-center font-mono font-bold text-sm uppercase tracking-wider border-b-2 border-oliva text-white";
-                tabLoginBtn.className = "w-1/2 py-2 text-center font-mono font-bold text-sm uppercase tracking-wider border-b-2 border-transparent text-gray-400 hover:text-gray-200";
-            }
-        }
 
         // Form Login Handler
         document.getElementById('form-login').addEventListener('submit', async (e) => {
@@ -420,7 +424,6 @@
             authErrorMsg.textContent = msg;
             authErrorMsg.classList.remove('hidden');
         }
-
 
         // --- SECCIÓN COLUMNA A: IDEAS Y CONCEPTOS ---
         async function loadIdeas() {
@@ -500,7 +503,7 @@
         });
 
         // Votar Idea (+1)
-        async function voteIdea(ideaId, currentVotes) {
+        window.voteIdea = async function(ideaId, currentVotes) {
             if (!currentUser) {
                 openAuthModal('login');
                 return;
@@ -517,8 +520,7 @@
             }
 
             await loadIdeas();
-        }
-
+        };
 
         // --- SECCIÓN COLUMNA B: CHAT EN TIEMPO REAL ---
         async function loadChatMessages() {

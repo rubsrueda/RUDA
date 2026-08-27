@@ -358,7 +358,7 @@
             updateUIState();
         });
 
-        // Form Login
+        // Form Login - Captura y despliega el mensaje de error si falla
         document.getElementById('form-login').addEventListener('submit', async (e) => {
             e.preventDefault();
             authErrorMsg.classList.add('hidden');
@@ -367,7 +367,14 @@
 
             const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
             if (error) {
-                showAuthError("Error de credenciales: Revisa tu correo o contraseña.");
+                // Traducción de errores comunes de Supabase
+                if (error.message.includes("Invalid login credentials")) {
+                    showAuthError("Credenciales inválidas. Revisa tu correo y contraseña.");
+                } else if (error.message.includes("Email not confirmed")) {
+                    showAuthError("Debes confirmar tu correo antes de iniciar sesión.");
+                } else {
+                    showAuthError(error.message);
+                }
                 return;
             }
 
@@ -392,7 +399,6 @@
                 return;
             }
 
-            // Registro pasándole metadatos directamente a Auth
             const { data: authData, error: authError } = await supabaseClient.auth.signUp({ 
                 email, 
                 password,
@@ -412,7 +418,6 @@
             if (authData.user) {
                 currentUser = authData.user;
                 
-                // Intento seguro de inserción manual
                 await supabaseClient.from('ruda_profiles').insert([{
                     id: authData.user.id,
                     username: username,

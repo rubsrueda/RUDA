@@ -480,35 +480,49 @@
             `).join('');
         }
 
-        document.getElementById('form-idea').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!currentUser) {
-                openAuthModal('login');
-                return;
-            }
+        // Publicar Nueva Idea (Con protección Anti-Doble Clic)
+document.getElementById('form-idea').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!currentUser) {
+        openAuthModal('login');
+        return;
+    }
 
-            const title = document.getElementById('idea-title').value;
-            const category = document.getElementById('idea-category').value;
-            const description = document.getElementById('idea-desc').value;
+    const submitBtn = document.getElementById('btn-submit-idea');
+    const title = document.getElementById('idea-title').value.trim();
+    const category = document.getElementById('idea-category').value;
+    const description = document.getElementById('idea-desc').value.trim();
 
-            const { error } = await supabaseClient
-                .from('ruda_ideas')
-                .insert([{
-                    user_id: currentUser.id,
-                    title,
-                    category,
-                    description,
-                    votes: 1
-                }]);
+    if (!title || !description) return;
 
-            if (error) {
-                alert(`Error al publicar idea: ${error.message}`);
-                return;
-            }
+    // Deshabilitar botón temporalmente para evitar envíos duplicados
+    submitBtn.disabled = true;
+    submitBtn.textContent = "PUBLICANDO...";
 
-            document.getElementById('form-idea').reset();
-            await loadIdeas();
-        });
+    const { error } = await supabaseClient
+        .from('ruda_ideas')
+        .insert([{
+            user_id: currentUser.id,
+            title,
+            category,
+            description,
+            votes: 1
+        }]);
+
+    if (error) {
+        alert(`Error al publicar idea: ${error.message}`);
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Publicar Propuesta";
+        return;
+    }
+
+    document.getElementById('form-idea').reset();
+    await loadIdeas();
+
+    // Restaurar botón
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Publicar Propuesta";
+});
 
         window.voteIdea = async function(ideaId, currentVotes) {
             if (!currentUser) {
